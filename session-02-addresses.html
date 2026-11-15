@@ -96,8 +96,8 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 <h1 id="%F0%9F%8F%B7%EF%B8%8F-%C5%9F%C9%99b%C9%99k%C9%99d%C9%99-%C3%BCnvanlar"><img class="emoji" draggable="false" alt="🏷️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/1f3f7.svg" data-marp-twemoji=""/> Şəbəkədə ünvanlar</h1>
 <h2 id="mac--ip--subnet-mask--gateway--arp--dhcp">MAC · IP · subnet mask · gateway · ARP · DHCP</h2>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code>  MAC   08:00:27:4e:66:a1        ← cihazın &quot;şəxsiyyət vəsiqəsi nömrəsi&quot;
-  IP    10.0.2.15 / 24           ← cihazın &quot;yaşayış ünvanı&quot; və şəbəkənin ölçüsü
-  GW    10.0.2.2                 ← şəbəkədən çıxış qapısı
+  IP    192.168.0.15 / 24           ← cihazın &quot;yaşayış ünvanı&quot; və şəbəkənin ölçüsü
+  GW    192.168.0.1                 ← şəbəkədən çıxış qapısı
 </code></pre>
 <p>DataCras DevOps &amp; Platform Engineering · Networking Modulu · Sessiya 02 · Chapter 1 — Şəbəkə təməli</p>
 </section>
@@ -773,7 +773,7 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 <ul>
 <li><code>/24</code> = &quot;ilk <strong>24 biti</strong> şəbəkədir&quot; (<code>CIDR</code> yazılışı)</li>
 <li>Şəbəkənin <strong>ilk ünvanı</strong> (<code>.0</code>) şəbəkənin adıdır, <strong>sonuncusu</strong> (<code>.255</code>) broadcast-dır. Cihazlara <strong>254</strong> ünvan qalır</li>
-<li>Dərin hesab və bölmələr üçün: <strong>Linux kursu, Sessiya 40 (CIDR)</strong></li>
+<li>Dərin hesab və bölmələr üçün: <strong>Sessiya 06 (Subnet, CIDR və routing)</strong></li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-paginate="true" data-background-color="#F7F9F8" data-color="#0F172A" data-theme="default" data-style="section {
@@ -1154,7 +1154,7 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 <tr>
 <td><code>x.x.x.255</code> (<code>/24</code>-də)</td>
 <td><strong>broadcast</strong>: şəbəkədəki hamıya</td>
-<td><code>ip a</code>: <code>brd 10.0.2.255</code></td>
+<td><code>ip a</code>: <code>brd 192.168.0.255</code></td>
 </tr>
 </tbody>
 </table>
@@ -1250,11 +1250,11 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 <h2 id="%F0%9F%9A%AA-default-gateway"><img class="emoji" draggable="false" alt="🚪" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/1f6aa.svg" data-marp-twemoji=""/> Default gateway</h2>
 <p><strong>Gateway</strong> = öz şəbəkəndən <strong>kənara çıxmaq üçün qapı</strong>. Adətən <strong>router-in</strong> daxili şəbəkədəki IP-sidir (çox vaxt <code>.1</code> və ya <code>.2</code>).</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">$ ip r | <span class="hljs-built_in">head</span> -1
-default via 10.0.2.2 dev enp0s3 proto dhcp src 10.0.2.15 metric 100
+default via 192.168.0.1 dev enp0s3 proto dhcp src 192.168.0.15 metric 100
 </code></pre>
 <ul>
-<li><code>default via 10.0.2.2</code> = &quot;<strong>başqa heç bir qayda uyğun gəlməyən hər şey</strong> <code>10.0.2.2</code>-yə get&quot;</li>
-<li><strong>Gateway mənim şəbəkəmdə olmalıdır.</strong> Məsələn, <code>10.0.2.15/24</code> üçün gateway <code>10.0.2.x</code> olmalıdır</li>
+<li><code>default via 192.168.0.1</code> = &quot;<strong>başqa heç bir qayda uyğun gəlməyən hər şey</strong> <code>192.168.0.1</code>-yə get&quot;</li>
+<li><strong>Gateway mənim şəbəkəmdə olmalıdır.</strong> Məsələn, <code>192.168.0.15/24</code> üçün gateway <code>192.168.0.x</code> olmalıdır</li>
 <li>Gateway yanlışdırsa: <strong>yerli şəbəkə işləyir, internet işləmir</strong></li>
 </ul>
 <blockquote>
@@ -1452,8 +1452,8 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 <h2 id="%F0%9F%93%92-arp-c%C9%99dv%C9%99li--ip-neigh"><img class="emoji" draggable="false" alt="📒" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/1f4d2.svg" data-marp-twemoji=""/> ARP cədvəli — <code>ip neigh</code></h2>
 <p>Cihaz cavabları <strong>yadda saxlayır</strong>, hər dəfə soruşmur:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">$ ip neigh
-10.0.2.2 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
-10.0.2.3 dev enp0s3 lladdr 52:54:00:12:35:03 STALE
+192.168.0.1 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
+192.168.0.3 dev enp0s3 lladdr 52:54:00:12:35:03 STALE
 </code></pre>
 <table>
 <thead>
@@ -1464,7 +1464,7 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 </thead>
 <tbody>
 <tr>
-<td><code>10.0.2.2</code></td>
+<td><code>192.168.0.1</code></td>
 <td>IP</td>
 </tr>
 <tr>
@@ -1803,7 +1803,7 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">$ ip a show enp0s3
 2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP
     <span class="hljs-built_in">link</span>/ether 08:00:27:4e:66:a1 brd ff:ff:ff:ff:ff:ff
-    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute enp0s3
+    inet 192.168.0.15/24 brd 192.168.0.255 scope global dynamic noprefixroute enp0s3
        valid_lft 86212sec preferred_lft 86212sec
     inet6 fe80::a00:27ff:fe4e:66a1/64 scope <span class="hljs-built_in">link</span>
 </code></pre>
@@ -1824,11 +1824,11 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 <td><strong>MAC</strong> ünvanı</td>
 </tr>
 <tr>
-<td><code>inet 10.0.2.15/24</code></td>
+<td><code>inet 192.168.0.15/24</code></td>
 <td><strong>IPv4</strong> ünvanı və <strong>mask</strong></td>
 </tr>
 <tr>
-<td><code>brd 10.0.2.255</code></td>
+<td><code>brd 192.168.0.255</code></td>
 <td>şəbəkənin <strong>broadcast</strong> ünvanı</td>
 </tr>
 <tr>
@@ -1846,7 +1846,7 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 </tbody>
 </table>
 <blockquote>
-<p><img class="emoji" draggable="false" alt="⚠️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/26a0.svg" data-marp-twemoji=""/> Bu <strong>nümunə çıxışdır</strong> (VirtualBox NAT). Sənin interfeys adın, IP və MAC-ın fərqli olacaq.</p>
+<p><img class="emoji" draggable="false" alt="⚠️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/26a0.svg" data-marp-twemoji=""/> Bu <strong>nümunə çıxışdır</strong> (<code>192.168.0.0/24</code> şəbəkəsi). Sənin interfeys adın, IP və MAC-ın fərqli olacaq.</p>
 </blockquote>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-paginate="true" data-background-color="#F7F9F8" data-color="#0F172A" data-theme="default" data-style="section {
@@ -2064,15 +2064,15 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
     <span class="hljs-built_in">link</span>/ether 08:00:27:4e:66:a1 brd ff:ff:ff:ff:ff:ff
 
 $ ip -4 a show enp0s3 | grep inet            <span class="hljs-comment"># IPv4 və mask</span>
-    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic enp0s3
+    inet 192.168.0.15/24 brd 192.168.0.255 scope global dynamic enp0s3
 
 $ ip r | <span class="hljs-built_in">head</span> -1                             <span class="hljs-comment"># gateway</span>
-default via 10.0.2.2 dev enp0s3 proto dhcp src 10.0.2.15 metric 100
+default via 192.168.0.1 dev enp0s3 proto dhcp src 192.168.0.15 metric 100
 
 $ ip neigh                                   <span class="hljs-comment"># ARP cədvəli (əvvəl boş ola bilər)</span>
-$ ping -c 1 10.0.2.2                         <span class="hljs-comment"># gateway-ə bir paket</span>
+$ ping -c 1 192.168.0.1                         <span class="hljs-comment"># gateway-ə bir paket</span>
 $ ip neigh                                   <span class="hljs-comment"># indi gateway-in MAC-ı görünür</span>
-10.0.2.2 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
+192.168.0.1 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
 </code></pre>
 <blockquote>
 <p><code>ping</code> <strong>ARP-nı işə salır</strong>: paketi göndərməzdən əvvəl cihaz gateway-in MAC-ını soruşur. Bu səbəbdən <strong><code>ping</code>-dən sonra</strong> <code>ip neigh</code>-də yeni sətir görünür.</p>
@@ -2322,7 +2322,7 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 <tr>
 <td><strong>VPN</strong></td>
 <td>iki ofis eyni <code>192.168.0.0/24</code></td>
-<td><strong>toqquşma</strong> → marşrut işləmir (Linux S40)</td>
+<td><strong>toqquşma</strong> → marşrut işləmir (Sessiya 06)</td>
 </tr>
 </tbody>
 </table>
@@ -2647,7 +2647,7 @@ pre code .hljs-operator, pre code .hljs-punctuation, pre code .hljs-subst { colo
 <li><strong>IP:</strong> <code>ip -4 a</code> ilə IP-ni və maskı yaz. <code>/24</code>-dürsə, <strong>şəbəkə ünvanını</strong> və <strong>broadcast-ı</strong> hesabla.</li>
 <li><strong>Eyni şəbəkədir?</strong> (cavabı hər cüt üçün <strong>hə/yox</strong> yaz)
 <ul>
-<li><code>10.0.2.15/24</code> və <code>10.0.2.20</code></li>
+<li><code>192.168.0.15/24</code> və <code>192.168.0.20</code></li>
 <li><code>192.168.1.5/24</code> və <code>192.168.2.5</code></li>
 <li><code>172.16.5.4/16</code> və <code>172.16.200.9</code></li>
 </ul>

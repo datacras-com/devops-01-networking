@@ -1,6 +1,6 @@
 # DevOps Networking Fundamentals
 
-DataCras DevOps & Platform Engineering bootcamp-ının **Networking** modulu. Linux modulundan ayrıdır (`devops-01-linux`), onun davamı deyil. Məqsəd tələbənin **əsas şəbəkə anlayışlarını** sıfırdan öyrənməsidir.
+DataCras DevOps & Platform Engineering bootcamp-ının **Networking** modulu. Linux modulundan ayrıdır (`devops-01-linux`), onun davamı deyil. Şəbəkə mövzuları (DNS, CIDR, firewall, `tcpdump`, HTTP) Linux kursundan buraya köçürülüb. Məqsəd tələbənin **əsas şəbəkə anlayışlarını** sıfırdan öyrənməsidir.
 
 ## Dərslər
 
@@ -10,11 +10,16 @@ DataCras DevOps & Platform Engineering bootcamp-ının **Networking** modulu. Li
 | 02 | Ünvanlar: MAC, IP (private/public), subnet mask, default gateway, ARP, DHCP | ✅ hazırdır |
 | 03 | OSI və TCP/IP modeli: qatlar, encapsulation, "problem hansı qatdadır?" | ✅ hazırdır |
 | 04 | Transport: TCP/UDP, port, handshake | ✅ hazırdır |
-| 05 | NAT, firewall, load balancer | planlaşdırılıb |
-| 06 | Diaqnostika: `ping` → `traceroute`/`mtr` → `ss` → `curl` → `dig` → `tcpdump` | planlaşdırılıb |
-| 07 | VPN və tunnel | planlaşdırılıb |
+| 05 | NAT, firewall, load balancer | ✅ hazırdır |
+| 06 | Subnet, CIDR və routing | ✅ hazırdır |
+| 07 | DNS: adı IP-yə çevirmək | ✅ hazırdır |
+| 08 | HTTP, HTTPS və sorğunun həyat dövrü | ✅ hazırdır |
+| 09 | Linux firewall: `ufw`, `iptables`, `nftables` | ✅ hazırdır |
+| 10 | `tcpdump` ilə trafik analizi | ✅ hazırdır |
+| 11 | Diaqnostika: `ping` → `traceroute`/`mtr` → `ss` → `curl` → `dig` | planlaşdırılıb |
+| 12 | VPN və tunnel | planlaşdırılıb |
 
-Linux kursunda artıq olan mövzulara (DNS S36, `tcpdump` S37, CIDR/routing S40, firewall S41) təkrar etmirik, onlara körpü qururuq.
+Sessiya 06–10 əvvəl Linux kursunda (S35, S36, S37, S40, S41) idi. Networking modulunda daha izahlı yenidən yazılıb və Linux kursundan çıxarılıb.
 
 ## Slaydları yenidən yığmaq
 
@@ -28,4 +33,4 @@ marp --no-stdin --html src/session-01-what-is-network.md -o session-01-what-is-n
 
 ## Qeyd
 
-Əmr çıxışları **nümunədir** (Ubuntu 24.04, VirtualBox NAT). Tələbənin IP və interfeys adları fərqli ola bilər. Dərsdən əvvəl çıxışları öz VM-də yoxlayın.
+Əmr çıxışları **nümunədir** (Ubuntu 24.04, `192.168.0.0/24` şəbəkəsi). Tələbənin IP və interfeys adları fərqli ola bilər. Dərsdən əvvəl çıxışları öz VM-də yoxlayın.

@@ -54,7 +54,7 @@ style: |
 ## TCP · UDP · port — məlumat doğru proqrama necə çatır?
 
 ```
-  Cihaz: 10.0.2.15
+  Cihaz: 192.168.0.15
   ┌────────────────────────────────────────────┐
   │  :22   sshd        ◄── ssh sorğusu         │
   │  :80   nginx       ◄── brauzer sorğusu     │
@@ -75,9 +75,9 @@ DataCras DevOps & Platform Engineering · Networking Modulu · Sessiya 04 · Cha
 - **TCP necə etibarlıdır:** handshake, sıra nömrəsi, ACK, itənin təkrarı, sürət nəzarəti
 - **TCP bağlantısının ömrü:** açmaq, bağlamaq, `ss` ilə vəziyyətlər
 - **`refused` və `timeout`:** iki fərqli xəta, iki fərqli səbəb
-- **Canlı lab:** `nc`, `ss`, `tcpdump` ilə handshake-i özün gör
+- **Canlı lab:** `nc` və `ss` ilə bağlantını özün gör
 
-> Linux kursunda **S35** (TCP/IP, handshake) və **S27** (port siyahısı, `ss`, `telnet`) var. Burada **niyə belə işlədiyini** və **problemi necə tapacağını** öyrənirik.
+> Linux kursunda **S27** (port siyahısı, `ss`, `telnet`) var. HTTP tərəfi **Sessiya 08**-dədir. Burada **niyə belə işlədiyini** və **problemi necə tapacağını** öyrənirik.
 
 ---
 
@@ -91,7 +91,7 @@ Qat 3 (IP) paketi **cihaza** çatdırır. Amma iki sual cavabsız qalır:
 | **Paket itərsə? Qarışarsa?** | IP "ən yaxşı cəhd" edir, **zəmanət vermir** | **TCP** (etibarlı) |
 
 ```
-  Qat 3 (IP):        "Paketi 10.0.2.15 cihazına çatdırdım"
+  Qat 3 (IP):        "Paketi 192.168.0.15 cihazına çatdırdım"
   Qat 4 (Transport): "Hansı proqrama? Hamısı düzgün gəlib?"
 ```
 
@@ -103,7 +103,7 @@ Qat 3 (IP) paketi **cihaza** çatdırır. Amma iki sual cavabsız qalır:
 
 - **IP** = hansı **bina**, **port** = binada hansı **otaq**
 - Port **16 bit** nömrədir: **0–65535**
-- **`IP:port`** cütünə **socket** (soket, şəbəkə ucu) deyilir: `10.0.2.15:80`
+- **`IP:port`** cütünə **socket** (soket, şəbəkə ucu) deyilir: `192.168.0.15:80`
 
 | Aralıq | Adı | Kim istifadə edir |
 |---|---|---|
@@ -120,17 +120,17 @@ Qat 3 (IP) paketi **cihaza** çatdırır. Amma iki sual cavabsız qalır:
 **Server** portu **sabitdir** (`443`). **Client** isə **hər bağlantı üçün müvəqqəti port** seçir:
 
 ```
-  Brauzer (tab 1)  10.0.2.15:41234 ───────────►  93.184.216.34:443
-  Brauzer (tab 2)  10.0.2.15:41240 ───────────►  93.184.216.34:443
-  curl             10.0.2.15:41300 ───────────►  93.184.216.34:443
+  Brauzer (tab 1)  192.168.0.15:41234 ───────────►  93.184.216.34:443
+  Brauzer (tab 2)  192.168.0.15:41240 ───────────►  93.184.216.34:443
+  curl             192.168.0.15:41300 ───────────►  93.184.216.34:443
 ```
 
 Hər bağlantı **dörd dəyərlə** tanınır:
 
 | Mənbə IP | Mənbə port | Təyinat IP | Təyinat port |
 |---|---|---|---|
-| `10.0.2.15` | **`41234`** | `93.184.216.34` | `443` |
-| `10.0.2.15` | **`41240`** | `93.184.216.34` | `443` |
+| `192.168.0.15` | **`41234`** | `93.184.216.34` | `443` |
+| `192.168.0.15` | **`41240`** | `93.184.216.34` | `443` |
 
 > **Eyni serverə eyni portla iki bağlantı** mümkündür, çünki **mənbə port fərqlidir**. Cavab da doğru tab-a bu səbəbdən qayıdır.
 
@@ -193,7 +193,7 @@ Hər bağlantı **dörd dəyərlə** tanınır:
 | ② **SYN-ACK** | server **təsdiqləyir** və **öz** nömrəsini göndərir |
 | ③ **ACK** | client **təsdiqləyir**. **İki tərəf də** göndərə və qəbul edə bildiyini bilir |
 
-> Üç addım nə üçündür? **Hər iki tərəf** bir-birini eşitdiyini və **başlanğıc nömrələrini** razılaşdırdığını bilməlidir. Ətraflı: **Linux S35**.
+> Üç addım nə üçündür? **Hər iki tərəf** bir-birini eşitdiyini və **başlanğıc nömrələrini** razılaşdırdığını bilməlidir. HTTP-nin bunun üstündə necə işlədiyi: **Sessiya 08**.
 
 ---
 
@@ -234,7 +234,7 @@ Sadələşdirilmiş nümunə (real TCP **bayt** nömrəsi işlədir, burada **hi
   Qəbul edən:  "window = 0"        →  "dayan, yerim yoxdur"
 ```
 
-> "Sürətli kanal var, amma **fayl yavaş yüklənir**" problemi tez-tez **window**, **itki** və **gecikmə** ilə bağlıdır. Bunu **Sessiya 06**-da alətlərlə ölçəcəyik.
+> "Sürətli kanal var, amma **fayl yavaş yüklənir**" problemi tez-tez **window**, **itki** və **gecikmə** ilə bağlıdır. Bunu **Sessiya 11**-də alətlərlə ölçəcəyik.
 
 ---
 
@@ -256,8 +256,8 @@ Sadələşdirilmiş nümunə (real TCP **bayt** nömrəsi işlədir, burada **hi
 $ ss -tan
 State      Recv-Q Send-Q  Local Address:Port    Peer Address:Port
 LISTEN     0      4096    0.0.0.0:22            0.0.0.0:*
-ESTAB      0      0       10.0.2.15:41234       93.184.216.34:443
-TIME-WAIT  0      0       10.0.2.15:41230       93.184.216.34:443
+ESTAB      0      0       192.168.0.15:41234       93.184.216.34:443
+TIME-WAIT  0      0       192.168.0.15:41230       93.184.216.34:443
 ```
 
 > Çoxlu `TIME-WAIT` **normaldır**. Çoxlu **`CLOSE-WAIT`** isə adətən **proqram səhvidir** (bağlantını bağlamır).
@@ -303,10 +303,10 @@ UDP **handshake etmir**, **təsdiq gözləmir**, **itəni təkrar göndərmir**.
 | **`Timed out`** | **heç bir cavab gəlmədi** | paket **itir** və ya **atılır** | **firewall DROP**, cihaz yoxdur, marşrut yoxdur |
 
 ```bash
-$ nc -vz 10.0.2.15 9999
-nc: connect to 10.0.2.15 port 9999 (tcp) failed: Connection refused      # cavab var, servis yox
+$ nc -vz 192.168.0.15 9999
+nc: connect to 192.168.0.15 port 9999 (tcp) failed: Connection refused      # cavab var, servis yox
 
-$ curl -m 5 http://10.0.2.99
+$ curl -m 5 http://192.168.0.99
 curl: (28) Connection timed out after 5001 milliseconds                   # cavab yoxdur
 ```
 
@@ -366,33 +366,6 @@ nc: connect to 127.0.0.1 port 9000 (tcp) failed: Connection refused
 
 ---
 
-## 🧪 Lab 4c — handshake-i `tcpdump` ilə gör
-
-**Terminal 1:** `nc -l 127.0.0.1 9000` işləsin. **Terminal 2:** paketləri tut (`sudo` lazımdır):
-
-```bash
-$ sudo tcpdump -i lo -n 'tcp port 9000'
-```
-
-**Terminal 3:** `nc 127.0.0.1 9000` ilə qoşul. Çıxışda **ilk 3 sətir** handshake-dir:
-
-```
-IP 127.0.0.1.43512 > 127.0.0.1.9000: Flags [S],  seq 100, ...        ← ① SYN
-IP 127.0.0.1.9000  > 127.0.0.1.43512: Flags [S.], seq 500, ack 101   ← ② SYN-ACK
-IP 127.0.0.1.43512 > 127.0.0.1.9000: Flags [.],  ack 501             ← ③ ACK
-```
-
-| Bayraq | Mənası |
-|---|---|
-| `[S]` | **SYN** |
-| `[S.]` | **SYN-ACK** (`.` = ACK) |
-| `[.]` | **ACK** |
-| `[F.]` | **FIN**, bağlantı bağlanır |
-
-> `tcpdump`-ı **Linux S37**-də ətraflı görmüşük. Rəqəmlər (`seq 100`) **nümunədir**, sənin çıxışında fərqli olacaq.
-
----
-
 ## 🪜 Transport problemləri: simptom → səbəb
 
 | Simptom | Ehtimal olunan səbəb | Yoxla |
@@ -402,7 +375,7 @@ IP 127.0.0.1.43512 > 127.0.0.1.9000: Flags [.],  ack 501             ← ③ ACK
 | **`Address already in use`** (server başlamır) | port **başqa proses** tərəfindən tutulub | `ss -tlnp \| grep :PORT` |
 | Qoşulur, sonra **`Connection reset`** | qarşı tərəf bağlantını **kəsdi** (RST) | server logları |
 | Çoxlu **`CLOSE-WAIT`** | proqram bağlantıları **bağlamır** | proqram kodu |
-| Yavaş yüklənir, kanal boşdur | **itki / gecikmə / window** | `ping`, `iperf` (Sessiya 06) |
+| Yavaş yüklənir, kanal boşdur | **itki / gecikmə / window** | `ping`, `iperf` (Sessiya 11) |
 
 > **Qayda:** əvvəl `refused` yoxsa `timeout`-u ayır. İki ayrı problemdir, **iki ayrı yerdə** axtarılır.
 
@@ -416,7 +389,7 @@ IP 127.0.0.1.43512 > 127.0.0.1.9000: Flags [.],  ack 501             ← ③ ACK
 | **Kubernetes** | Service `port` / `targetPort` | iki fərqli port: Service-in, pod-un |
 | **AWS Security Group** | Inbound rule: TCP 443 | **hansı port və protokol** icazəlidir |
 | **Load balancer** | health check: TCP `80` | **TCP bağlantısı** qurulursa, "sağlam" sayılır |
-| **Firewall** (Linux S41) | `ufw allow 22/tcp` | `tcp` və `udp` **ayrıca** açılır |
+| **Firewall** (Sessiya 09) | `ufw allow 22/tcp` | `tcp` və `udp` **ayrıca** açılır |
 
 > **TCP health check** yalnız portun **açıq olduğunu** yoxlayır, **tətbiqin işlədiyini yox**. Port açıqdır, amma tətbiq xətalıdır: bunu **HTTP health check** (qat 7) tutur.
 
@@ -463,5 +436,4 @@ IP 127.0.0.1.43512 > 127.0.0.1.9000: Flags [.],  ack 501             ← ③ ACK
 3. **Handshake:** 3 addımı sıra ilə yaz və **hər addımda kimin nə dediyini** öz sözünlə izah et.
 4. **Lab 4a:** `nc` ilə server və client yarat. İki terminal arasında mesaj göndər. `ss -tln` ilə dinləyən portu göstər.
 5. **Lab 4b:** Bağlantı açıqkən `ss -tn` işlət: **client portunu** tap. Serveri dayandırıb `nc -vz` et: hansı xəta çıxır və **niyə**?
-6. **Lab 4c:** `tcpdump` ilə handshake-in **3 sətrini** göstər. `[S]`, `[S.]`, `[.]` nə deməkdir?
-7. **Diaqnostika:** `curl` `refused` verir. Digər `curl` `timeout` verir. Hər birində **ilk nəyi yoxlayarsan**?
+6. **Diaqnostika:** `curl` `refused` verir. Digər `curl` `timeout` verir. Hər birində **ilk nəyi yoxlayarsan**?

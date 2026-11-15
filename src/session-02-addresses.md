@@ -55,8 +55,8 @@ style: |
 
 ```
   MAC   08:00:27:4e:66:a1        ← cihazın "şəxsiyyət vəsiqəsi nömrəsi"
-  IP    10.0.2.15 / 24           ← cihazın "yaşayış ünvanı" və şəbəkənin ölçüsü
-  GW    10.0.2.2                 ← şəbəkədən çıxış qapısı
+  IP    192.168.0.15 / 24           ← cihazın "yaşayış ünvanı" və şəbəkənin ölçüsü
+  GW    192.168.0.1                 ← şəbəkədən çıxış qapısı
 ```
 
 DataCras DevOps & Platform Engineering · Networking Modulu · Sessiya 02 · Chapter 1 — Şəbəkə təməli
@@ -172,7 +172,7 @@ Mask IP-nin **neçə bitinin şəbəkəyə aid olduğunu** göstərir.
 
 - `/24` = "ilk **24 biti** şəbəkədir" (`CIDR` yazılışı)
 - Şəbəkənin **ilk ünvanı** (`.0`) şəbəkənin adıdır, **sonuncusu** (`.255`) broadcast-dır. Cihazlara **254** ünvan qalır
-- Dərin hesab və bölmələr üçün: **Linux kursu, Sessiya 40 (CIDR)**
+- Dərin hesab və bölmələr üçün: **Sessiya 06 (Subnet, CIDR və routing)**
 
 ---
 
@@ -218,7 +218,7 @@ Cihaz paket göndərməzdən əvvəl bunu yoxlayır. `/24` üçün **ilk 3 oktet
 | `127.0.0.1` | **özüm** (`localhost`, loopback) | `curl localhost` |
 | `0.0.0.0` | **bütün interfeyslər** (server dinləyəndə) | `ss`: `0.0.0.0:80` |
 | `169.254.x.x` | **DHCP tapılmadı**, sistem özü ünvan verdi | "IP aldı, amma işləmir" |
-| `x.x.x.255` (`/24`-də) | **broadcast**: şəbəkədəki hamıya | `ip a`: `brd 10.0.2.255` |
+| `x.x.x.255` (`/24`-də) | **broadcast**: şəbəkədəki hamıya | `ip a`: `brd 192.168.0.255` |
 
 > **`169.254.x.x` görürsənsə**, əsas səbəb **DHCP serverinə çata bilməməkdir**. Bu, ən sürətli diaqnostika ipuclarından biridir.
 
@@ -230,11 +230,11 @@ Cihaz paket göndərməzdən əvvəl bunu yoxlayır. `/24` üçün **ilk 3 oktet
 
 ```bash
 $ ip r | head -1
-default via 10.0.2.2 dev enp0s3 proto dhcp src 10.0.2.15 metric 100
+default via 192.168.0.1 dev enp0s3 proto dhcp src 192.168.0.15 metric 100
 ```
 
-- `default via 10.0.2.2` = "**başqa heç bir qayda uyğun gəlməyən hər şey** `10.0.2.2`-yə get"
-- **Gateway mənim şəbəkəmdə olmalıdır.** Məsələn, `10.0.2.15/24` üçün gateway `10.0.2.x` olmalıdır
+- `default via 192.168.0.1` = "**başqa heç bir qayda uyğun gəlməyən hər şey** `192.168.0.1`-yə get"
+- **Gateway mənim şəbəkəmdə olmalıdır.** Məsələn, `192.168.0.15/24` üçün gateway `192.168.0.x` olmalıdır
 - Gateway yanlışdırsa: **yerli şəbəkə işləyir, internet işləmir**
 
 > Ətraflı: **Linux kursu, Sessiya 26B (`ip r`)**. Orada bütün `ip r` qaydalarını oxuyuruq.
@@ -269,13 +269,13 @@ Cihaz cavabları **yadda saxlayır**, hər dəfə soruşmur:
 
 ```bash
 $ ip neigh
-10.0.2.2 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
-10.0.2.3 dev enp0s3 lladdr 52:54:00:12:35:03 STALE
+192.168.0.1 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
+192.168.0.3 dev enp0s3 lladdr 52:54:00:12:35:03 STALE
 ```
 
 | Hissə | Mənası |
 |---|---|
-| `10.0.2.2` | IP |
+| `192.168.0.1` | IP |
 | `lladdr 52:54:…` | həmin IP-nin **MAC**-ı |
 | `REACHABLE` | yaxınlarda **cavab verib** (canlıdır) |
 | `STALE` | köhnəlib, lazım olanda **yenidən yoxlanacaq** |
@@ -332,7 +332,7 @@ Noutbuku şəbəkəyə qoşanda **heç kim IP yazmır**. Cihaz **DHCP serverind�
 $ ip a show enp0s3
 2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP
     link/ether 08:00:27:4e:66:a1 brd ff:ff:ff:ff:ff:ff
-    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute enp0s3
+    inet 192.168.0.15/24 brd 192.168.0.255 scope global dynamic noprefixroute enp0s3
        valid_lft 86212sec preferred_lft 86212sec
     inet6 fe80::a00:27ff:fe4e:66a1/64 scope link
 ```
@@ -341,13 +341,13 @@ $ ip a show enp0s3
 |---|---|
 | `enp0s3`, `state UP` | interfeys adı, **qalxıb** |
 | `link/ether 08:00:27:…` | **MAC** ünvanı |
-| `inet 10.0.2.15/24` | **IPv4** ünvanı və **mask** |
-| `brd 10.0.2.255` | şəbəkənin **broadcast** ünvanı |
+| `inet 192.168.0.15/24` | **IPv4** ünvanı və **mask** |
+| `brd 192.168.0.255` | şəbəkənin **broadcast** ünvanı |
 | `dynamic` | IP **DHCP ilə** alınıb (`static` yox) |
 | `valid_lft 86212sec` | **icarənin** qalan vaxtı |
 | `inet6 fe80::…` | **IPv6** ünvanı (`fe80` = yalnız yerli şəbəkə) |
 
-> ⚠️ Bu **nümunə çıxışdır** (VirtualBox NAT). Sənin interfeys adın, IP və MAC-ın fərqli olacaq.
+> ⚠️ Bu **nümunə çıxışdır** (`192.168.0.0/24` şəbəkəsi). Sənin interfeys adın, IP və MAC-ın fərqli olacaq.
 
 ---
 
@@ -377,15 +377,15 @@ $ ip link show enp0s3 | grep link/ether      # MAC
     link/ether 08:00:27:4e:66:a1 brd ff:ff:ff:ff:ff:ff
 
 $ ip -4 a show enp0s3 | grep inet            # IPv4 və mask
-    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic enp0s3
+    inet 192.168.0.15/24 brd 192.168.0.255 scope global dynamic enp0s3
 
 $ ip r | head -1                             # gateway
-default via 10.0.2.2 dev enp0s3 proto dhcp src 10.0.2.15 metric 100
+default via 192.168.0.1 dev enp0s3 proto dhcp src 192.168.0.15 metric 100
 
 $ ip neigh                                   # ARP cədvəli (əvvəl boş ola bilər)
-$ ping -c 1 10.0.2.2                         # gateway-ə bir paket
+$ ping -c 1 192.168.0.1                         # gateway-ə bir paket
 $ ip neigh                                   # indi gateway-in MAC-ı görünür
-10.0.2.2 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
+192.168.0.1 dev enp0s3 lladdr 52:54:00:12:35:02 REACHABLE
 ```
 
 > `ping` **ARP-nı işə salır**: paketi göndərməzdən əvvəl cihaz gateway-in MAC-ını soruşur. Bu səbəbdən **`ping`-dən sonra** `ip neigh`-də yeni sətir görünür.
@@ -414,7 +414,7 @@ $ ip neigh                                   # indi gateway-in MAC-ı görünür
 | **Docker** | `172.17.0.0/16` (`docker0`) | private aralıq, ev şəbəkəsi ilə **toqquşa bilər** |
 | **Kubernetes** | pod-lar üçün ayrıca CIDR | pod və node aralıqları **üst-üstə düşməməlidir** |
 | **AWS VPC** | `10.0.0.0/16` kimi seçirsən | düzgün **ölçü** seçmək lazımdır |
-| **VPN** | iki ofis eyni `192.168.0.0/24` | **toqquşma** → marşrut işləmir (Linux S40) |
+| **VPN** | iki ofis eyni `192.168.0.0/24` | **toqquşma** → marşrut işləmir (Sessiya 06) |
 
 > Ən çox rast gəlinən real problem: **iki şəbəkə eyni private aralığı işlədir** və birləşdirəndə (VPN, peering) marşrut çaşır. Ona görə şəbəkə qurmazdan əvvəl **ünvan planı** qurulur.
 
@@ -458,7 +458,7 @@ $ ip neigh                                   # indi gateway-in MAC-ı görünür
 1. **MAC:** Öz VM-nin MAC-ını tap. İlk 3 baytı (istehsalçı) yaz.
 2. **IP:** `ip -4 a` ilə IP-ni və maskı yaz. `/24`-dürsə, **şəbəkə ünvanını** və **broadcast-ı** hesabla.
 3. **Eyni şəbəkədir?** (cavabı hər cüt üçün **hə/yox** yaz)
-   - `10.0.2.15/24` və `10.0.2.20`
+   - `192.168.0.15/24` və `192.168.0.20`
    - `192.168.1.5/24` və `192.168.2.5`
    - `172.16.5.4/16` və `172.16.200.9`
 4. **Private, yoxsa public?** `8.8.8.8` · `172.20.1.1` · `172.32.0.1` · `192.168.5.5`

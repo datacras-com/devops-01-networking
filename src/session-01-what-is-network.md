@@ -234,7 +234,7 @@ Məlumat **bütöv göndərilmir**, **kiçik hissələrə (paketlərə)** bölü
 
 - Paketin keçdiyi **hər router** bir **"hop"** (addım) sayılır
 - Hər router yalnız **növbəti addımı** bilir, bütün yolu yox
-- Hop sayını `traceroute` ilə görəcəyik (**Sessiya 06**)
+- Hop sayını `traceroute` ilə görəcəyik (**Sessiya 11**)
 
 ---
 
@@ -263,11 +263,11 @@ Məlumat **bütöv göndərilmir**, **kiçik hissələrə (paketlərə)** bölü
 
 | # | Addım | Hansı dərsdə |
 |---|---|---|
-| 1 | **Ad → IP:** `tm.datacras.com` hansı IP-dir? (**DNS**) | Linux kursu, S36 |
+| 1 | **Ad → IP:** `tm.datacras.com` hansı IP-dir? (**DNS**) | Sessiya 07 |
 | 2 | **Bu IP mənim şəbəkəmdədir?** Yox → **gateway**-ə ver | Sessiya 02 |
 | 3 | Paket **router-lərdən** keçib serverə çatır | Sessiya 01 (indi), 06 |
 | 4 | **TCP bağlantısı** qurulur | Sessiya 04 |
-| 5 | **HTTPS sorğusu** göndərilir | Sessiya 03, Linux S35 |
+| 5 | **HTTPS sorğusu** göndərilir | Sessiya 03 və 08 |
 | 6 | Server **cavab** qaytarır | — |
 
 > Bu **xəritə**dir. İndi hər addımı bilmək lazım deyil. Kurs boyu hər addım ayrıca açılacaq və sonda bu cədvəli **özün izah edə biləcəksən**.
