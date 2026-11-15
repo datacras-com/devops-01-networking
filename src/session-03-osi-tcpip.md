@@ -115,9 +115,27 @@ DataCras DevOps & Platform Engineering · Networking Modulu · Sessiya 03 · Cha
 
 ---
 
+## 🔗 Qatlar bir-birinə necə yardım edir?
+
+Hər qat **aşağıdakı qatın çatışmazlığını həll edir** və **yuxarıdakına xidmət göstərir**:
+
+| Qat | Aşağıdakı qat nə verir | Bu qat nə əlavə edir |
+|---|---|---|
+| **1** Physical | — | **siqnalı daşıyır** (0 və 1), amma nə dediyini bilmir |
+| **2** Data Link | siqnal | siqnalları **mənalı çərçivəyə** salır, **MAC** ilə qonşuya düzgün çatdırır |
+| **3** Network | qonşuya çatdırma | **çoxlu şəbəkə** arasında yolu tapır (**IP**, router) |
+| **4** Transport | cihaza çatdırma | **hansı proqrama** çatdırır (**port**), TCP ilə **etibarlı** edir |
+| **5–7** | proqrama çatdırma | **proqramın dili** (HTTP, SSH, DNS) |
+
+> IP **ev ünvanıdırsa**, MAC həmin evdə yaşayan **konkret şəxsin şəxsiyyət vəsiqəsidir**. Hər ikisi lazımdır: IP evi tapır, MAC isə evdə **dəqiq kimə** çatdığını göstərir.
+
+---
+
 ## 🔌 Qat 1: Physical — fiziki qat
 
-**Bit-ləri** (0 və 1) **siqnal** kimi daşıyır: elektrik, işıq, radio dalğası.
+**Ən aşağı qat.** Bit-ləri (0 və 1) **siqnal** kimi daşıyır: kabeldə **elektrik**, optik kabeldə **işıq**, Wi-Fi-da **radio dalğası**. Nə dediyini **bilmir**, yalnız **daşıyır**.
+
+**Əsas vəzifə:** göndərəndə **bit → siqnal**, qəbul edəndə **siqnal → bit**.
 
 | Nə | Nümunə |
 |---|---|
@@ -139,7 +157,13 @@ $ ip link show enp0s3
 
 ## 🔗 Qat 2: Data Link — frame və MAC
 
-**Eyni şəbəkədə** bir cihazdan digərinə **frame** çatdırır. Ünvanı **MAC** (Sessiya 02).
+Qat 1 yalnız siqnal daşıyır. **Qat 2 həmin siqnalları mənalı formaya (çərçivəyə) salır və qarşı tərəfə düzgün çatdırır.**
+
+**Əsas vəzifələr:**
+
+- **Framing:** qat 3-dən gələn **paketi çərçivəyə (frame) qablaşdırır**, hər çərçivəyə **göndərən və alanın MAC ünvanını** yazır
+- **MAC ilə ünvanlama:** məlumatın **hansı cihaza** gedəcəyi **MAC**-a baxılaraq müəyyən olunur
+- **Xəta yoxlaması:** zədəli çərçivə **FCS** ilə aşkarlanıb atılır
 
 ```
   ┌──────────┬──────────┬──────┬─────────────┬─────┐
@@ -148,29 +172,26 @@ $ ip link show enp0s3
   └──────────┴──────────┴──────┴─────────────┴─────┘
 ```
 
-| Nə | Nümunə |
-|---|---|
-| Vahid | **frame** (çərçivə) |
-| Ünvan | **MAC** |
-| Cihaz | **switch** |
-| Protokol | **Ethernet**, Wi-Fi, **ARP** (IP → MAC) |
-| Tipik problem | `ip neigh` → `FAILED`, ARP cavab vermir |
+**Cihaz:** switch · **Protokol:** Ethernet, Wi-Fi, ARP (IP → MAC) · **Problem:** `ip neigh` → `FAILED`
 
-> **FCS** = frame-in **düzgün gəlib-gəlmədiyini** yoxlayan nəzarət cəmi. Zədəli frame atılır.
+> IP **ev ünvanıdırsa**, MAC həmin evdə yaşayan **şəxsin şəxsiyyət vəsiqəsidir**.
 
 ---
 
 ## 🌐 Qat 3: Network — IP və routing
 
-**Şəbəkələr arasında** paketi **son təyinata** çatdırır. Ünvanı **IP** (Sessiya 02).
+Qat 2 yalnız **eyni şəbəkədəki qonşuya** çatdıra bilir. **Qat 3 bu məhdudiyyəti aşır:** **bir çox şəbəkə arasında** son təyinata gedən yolu tapır.
+
+**Əsas vəzifələr:**
+
+- **IP ünvanlama:** hər cihaza **məntiqi ünvan** verir (Sessiya 02)
+- **Marşrutlaşdırma:** router paketi **növbəti addıma** ötürür. `ip r` qərar verir: **birbaşa**, yoxsa **gateway**-ə?
 
 | Nə | Nümunə |
 |---|---|
 | Vahid | **paket** (packet) |
-| Ünvan | **IP** |
 | Cihaz | **router** |
 | Protokol | **IP**, **ICMP** (`ping`) |
-| Qərar | `ip r`: birbaşa, yoxsa **gateway**-ə? |
 | Tipik problem | **gateway yoxdur**, yanlış marşrut, IP toqquşması |
 
 > **Qat 3 = "hara?"**: paketin yolu. `ping` bu qatı yoxlayır (ICMP işlədir). **`ping` işləyirsə, qat 3-ə qədər hər şey qaydasındadır.**
@@ -179,17 +200,18 @@ $ ip link show enp0s3
 
 ## 🚚 Qat 4: Transport — port, TCP və UDP
 
-Məlumatı **doğru proqrama** çatdırır. Ünvanı **port**.
+Qat 3 paketi **cihaza** çatdırır, amma cihazdakı **hansı proqrama** aid olduğunu bilmir. **Qat 4 məlumatı doğru proqrama çatdırır və lazım olsa etibarlı edir.**
+
+**Əsas vəzifələr:**
+
+- **Port ilə proqram seçimi:** `80` veb server, `22` SSH, `443` HTTPS. **IP** = hansı **bina**, **port** = binada hansı **otaq**
+- **Böyük məlumatı bölmək:** TCP onu **segmentlərə** bölür, **sıra nömrəsi** verir, itəni **yenidən göndərir**
+- **Seçim:** **TCP** (etibarlı, bağlantılı) və ya **UDP** (sürətli, bağlantısız)
 
 | Nə | Nümunə |
 |---|---|
 | Vahid | **segment** (TCP) / **datagram** (UDP) |
-| Ünvan | **port** (`80`, `443`, `22`) |
-| Protokol | **TCP** (etibarlı, bağlantılı), **UDP** (sürətli, bağlantısız) |
 | Tipik problem | port **bağlıdır** (`refused`), firewall port-u **bloklayır** |
-
-- **IP** = "hansı **bina**", **port** = "binada hansı **otaq**"
-- `192.168.0.5:443` = 192.168.0.5 cihazındakı 443-cü port (HTTPS proqramı)
 
 > TCP və UDP-ni **Sessiya 04**-də ətraflı öyrənəcəyik. İndi bilmək kifayətdir: **transport qatı proqramı seçir**.
 
@@ -197,7 +219,7 @@ Məlumatı **doğru proqrama** çatdırır. Ünvanı **port**.
 
 ## 🖥️ Qat 5, 6, 7: Session, Presentation, Application
 
-**Praktikada üçü bir yerdə** düşünülür: **proqramın özü**.
+Qat 4 yalnız **baytları daşıyır**, mənasını bilmir. **Qat 5–7 proqramın öz dilidir:** sorğunu və cavabı proqramların **başa düşdüyü formada** yazır. Praktikada üçü **bir yerdə** düşünülür.
 
 | OSI qat | Nə | Nümunə |
 |---|---|---|
