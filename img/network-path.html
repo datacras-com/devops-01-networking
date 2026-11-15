@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Şəbəkə Yolu</title>
+<style>
+/* Layout: one horizontal path, laptop to server, scrolls inside its own box on phones */
+:root{
+  --bg:#f5f7f8; --fg:#1b2a33; --muted:#5d6f7a; --line:#7d8f9a; --panel:#ffffff; --edge:#d5dde2; --accent:#0a7f8c;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a20;--fg:#e4edf1;--muted:#8fa3ae;--line:#6b808c;--panel:#16252d;--edge:#26373f;--accent:#3cc3d1;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1a20;--fg:#e4edf1;--muted:#8fa3ae;--line:#6b808c;--panel:#16252d;--edge:#26373f;--accent:#3cc3d1;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);padding-block:32px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:1180px;margin:0 auto}
+h1{font-size:22px;font-weight:600;margin:0 0 16px}
+figure{margin:0;background:var(--panel);border:1px solid var(--edge);border-radius:8px;padding:16px}
+.scroll{overflow-x:auto}
+svg{display:block;min-width:760px;width:100%;height:auto;color:var(--fg)}
+figcaption{margin-top:12px;font-size:14px;color:var(--muted);max-width:65ch;line-height:1.5}
+.n{font:600 14px var(--font);fill:currentColor}
+.s{font:12px var(--font);fill:var(--muted)}
+.l{font:12px var(--font);fill:var(--muted)}
+.ic{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fillbg{fill:var(--panel)}
+.led{fill:var(--accent);stroke:none}
+.link{stroke:var(--line);stroke-width:2;fill:none}
+.wan{stroke:var(--accent);stroke-width:2;fill:none}
+</style>
+</head>
+<body>
+<main>
+<h1>Noutbukdan serverə şəbəkə yolu</h1>
+<figure>
+<div class="scroll">
+<svg viewBox="0 0 1140 210" role="img" aria-label="Noutbuk switch və router vasitəsilə internetə, oradan data mərkəzinə və serverə qoşulur">
+
+<!-- links -->
+<g class="link"><line x1="122" y1="80" x2="218" y2="80"/><line x1="302" y1="80" x2="398" y2="80"/><line x1="942" y1="80" x2="1018" y2="80"/></g>
+<g class="wan"><line x1="482" y1="76" x2="598" y2="76"/><line x1="482" y1="84" x2="598" y2="84"/><line x1="682" y1="76" x2="818" y2="76"/><line x1="682" y1="84" x2="818" y2="84"/></g>
+<g class="l" text-anchor="middle"><text x="170" y="68">Ethernet</text><text x="350" y="68">Ethernet</text><text x="540" y="66" style="fill:var(--accent)">ISP / WAN</text><text x="750" y="66" style="fill:var(--accent)">VPN / uplink</text><text x="980" y="68">LAN</text></g>
+
+<!-- laptop -->
+<g transform="translate(80,80)" class="ic"><rect x="-22" y="-28" width="44" height="30" rx="3"/><rect x="-17" y="-23" width="34" height="20" rx="1"/><path d="M-30 10H30L26 20H-26Z"/></g>
+<!-- switch -->
+<g transform="translate(260,80)" class="ic"><rect x="-38" y="-14" width="76" height="28" rx="3"/>
+<rect x="-30" y="-2" width="7" height="9"/><rect x="-20" y="-2" width="7" height="9"/><rect x="-10" y="-2" width="7" height="9"/><rect x="0" y="-2" width="7" height="9"/><rect x="10" y="-2" width="7" height="9"/><rect x="20" y="-2" width="7" height="9"/>
+<circle class="led" cx="-26" cy="-8" r="1.8"/><circle class="led" cx="-16" cy="-8" r="1.8"/><circle class="led" cx="-6" cy="-8" r="1.8"/></g>
+<!-- router -->
+<g transform="translate(440,80)" class="ic"><path d="M-18 -4L-26 -28M18 -4L26 -28"/><rect x="-38" y="-4" width="76" height="26" rx="3"/>
+<circle class="led" cx="-26" cy="9" r="2"/><circle class="led" cx="-18" cy="9" r="2"/><line x1="8" y1="9" x2="30" y2="9"/><path d="M-10 -14a14 14 0 0 1 20 0"/></g>
+<!-- internet -->
+<g transform="translate(640,80)" class="ic"><path class="fillbg" d="M-26 20H22A13 13 0 0 0 24 -6A19 19 0 0 0 -12 -12A15 15 0 0 0 -26 20Z"/>
+<circle cx="-2" cy="4" r="9"/><ellipse cx="-2" cy="4" rx="4" ry="9"/><line x1="-11" y1="4" x2="7" y2="4"/></g>
+<!-- data center -->
+<g transform="translate(880,80)" class="ic"><rect x="-34" y="-34" width="68" height="68" rx="4"/>
+<rect x="-26" y="-26" width="52" height="14" rx="2"/><rect x="-26" y="-7" width="52" height="14" rx="2"/><rect x="-26" y="12" width="52" height="14" rx="2"/>
+<circle class="led" cx="-19" cy="-19" r="2"/><circle class="led" cx="-19" cy="0" r="2"/><circle class="led" cx="-19" cy="19" r="2"/>
+<line x1="-8" y1="-19" x2="18" y2="-19"/><line x1="-8" y1="0" x2="18" y2="0"/><line x1="-8" y1="19" x2="18" y2="19"/></g>
+<!-- server -->
+<g transform="translate(1060,80)" class="ic"><rect x="-24" y="-32" width="48" height="18" rx="2"/><rect x="-24" y="-9" width="48" height="18" rx="2"/><rect x="-24" y="14" width="48" height="18" rx="2"/>
+<circle class="led" cx="-15" cy="-23" r="2"/><circle class="led" cx="-15" cy="0" r="2"/><circle class="led" cx="-15" cy="23" r="2"/>
+<line x1="-6" y1="-23" x2="16" y2="-23"/><line x1="-6" y1="0" x2="16" y2="0"/><line x1="-6" y1="23" x2="16" y2="23"/></g>
+
+<!-- labels -->
+<g text-anchor="middle">
+<text class="n" x="80" y="148">Noutbuk</text><text class="s" x="80" y="166">istifadəçi cihazı</text>
+<text class="n" x="260" y="148">Switch</text><text class="s" x="260" y="166">L2 giriş</text>
+<text class="n" x="440" y="148">Router</text><text class="s" x="440" y="166">gateway</text>
+<text class="n" x="640" y="148">İnternet</text><text class="s" x="640" y="166">ictimai şəbəkə</text>
+<text class="n" x="880" y="148">Data mərkəzi</text><text class="s" x="880" y="166">kolokasiya</text>
+<text class="n" x="1060" y="148">Server</text><text class="s" x="1060" y="166">tətbiq hostu</text>
+</g>
+</svg>
+</div>
+<figcaption>Yerli şəbəkə (boz xətt) router-də bitir. Ondan sonra trafik ictimai internetlə (rəngli cüt xətt) data mərkəzinə çatır və orada yenidən yerli şəbəkə ilə serverə keçir.</figcaption>
+</figure>
+</main>
+</body>
+</html>
