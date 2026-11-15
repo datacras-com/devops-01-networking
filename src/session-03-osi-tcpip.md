@@ -163,7 +163,7 @@ Qat 1 yalnız siqnal daşıyır. **Qat 2 həmin siqnalları mənalı formaya (ç
 
 - **Framing:** qat 3-dən gələn **paketi çərçivəyə (frame) qablaşdırır**, hər çərçivəyə **göndərən və alanın MAC ünvanını** yazır
 - **MAC ilə ünvanlama:** məlumatın **hansı cihaza** gedəcəyi **MAC**-a baxılaraq müəyyən olunur
-- **Xəta yoxlaması:** zədəli çərçivə **FCS** ilə aşkarlanıb atılır
+- **Xəta yoxlaması:** zədəli çərçivə **FCS** (Frame Check Sequence, çərçivə yoxlama ardıcıllığı) ilə aşkarlanıb atılır
 
 ```
   ┌──────────┬──────────┬──────┬─────────────┬─────┐
