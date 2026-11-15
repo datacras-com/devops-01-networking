@@ -7,7 +7,7 @@ DataCras DevOps & Platform Engineering bootcamp-ının **Networking** modulu. Li
 | # | Mövzu | Vəziyyət |
 |---|---|---|
 | 01 | Şəbəkə nədir? Cihazlar, LAN/WAN, paket, client-server, gecikmə, diaqnostika nərdivanı | ✅ hazırdır |
-| 02 | Ünvanlar: MAC, IP (private/public), subnet mask, default gateway, ARP, DHCP | planlaşdırılıb |
+| 02 | Ünvanlar: MAC, IP (private/public), subnet mask, default gateway, ARP, DHCP | ✅ hazırdır |
 | 03 | OSI və TCP/IP modeli: qatlar, encapsulation, "problem hansı qatdadır?" | planlaşdırılıb |
 | 04 | Transport: TCP/UDP, port, handshake | planlaşdırılıb |
 | 05 | NAT, firewall, load balancer | planlaşdırılıb |

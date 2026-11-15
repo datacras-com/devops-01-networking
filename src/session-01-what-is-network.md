@@ -53,10 +53,45 @@ style: |
 
 ## Cihazlar, şəbəkə növləri və bir paketin yolu
 
-```
-  💻 noutbuk ──── 🔀 switch ──── 📡 router ════ 🌍 İnternet ════ 🏢 data mərkəzi ──── 🖥️ server
-   (client)      (öz şəbəkəm)   (qapı)        (şəbəkələrin şəbəkəsi)                    (nginx)
-```
+<style>
+.nw{display:block;width:100%;height:auto;margin:10px 0 6px;color:#0F172A}
+.nw .n{font:600 17px 'Segoe UI',Arial,sans-serif;fill:#0F172A}
+.nw .s{font:14px 'Segoe UI',Arial,sans-serif;fill:#848688}
+.nw .l{font:14px 'Segoe UI',Arial,sans-serif;fill:#848688}
+.nw .ic{fill:none;stroke:#0F172A;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nw .fillbg{fill:#F7F9F8}
+.nw .led{fill:#00A859;stroke:none}
+.nw .link{stroke:#848688;stroke-width:2;fill:none}
+.nw .wan{stroke:#00A859;stroke-width:2;fill:none}
+</style>
+<svg class="nw" viewBox="0 0 1140 210" role="img" aria-label="Noutbuk switch və router vasitəsilə internetə, oradan data mərkəzinə və serverə qoşulur">
+<g class="link"><line x1="122" y1="80" x2="218" y2="80"/><line x1="302" y1="80" x2="398" y2="80"/><line x1="942" y1="80" x2="1018" y2="80"/></g>
+<g class="wan"><line x1="482" y1="76" x2="598" y2="76"/><line x1="482" y1="84" x2="598" y2="84"/><line x1="682" y1="76" x2="818" y2="76"/><line x1="682" y1="84" x2="818" y2="84"/></g>
+<g class="l" text-anchor="middle"><text x="170" y="68">Ethernet</text><text x="350" y="68">Ethernet</text><text x="540" y="66" style="fill:#00A859">ISP / WAN</text><text x="750" y="66" style="fill:#00A859">VPN / uplink</text><text x="980" y="68">LAN</text></g>
+<g transform="translate(80,80)" class="ic"><rect x="-22" y="-28" width="44" height="30" rx="3"/><rect x="-17" y="-23" width="34" height="20" rx="1"/><path d="M-30 10H30L26 20H-26Z"/></g>
+<g transform="translate(260,80)" class="ic"><rect x="-38" y="-14" width="76" height="28" rx="3"/>
+<rect x="-30" y="-2" width="7" height="9"/><rect x="-20" y="-2" width="7" height="9"/><rect x="-10" y="-2" width="7" height="9"/><rect x="0" y="-2" width="7" height="9"/><rect x="10" y="-2" width="7" height="9"/><rect x="20" y="-2" width="7" height="9"/>
+<circle class="led" cx="-26" cy="-8" r="1.8"/><circle class="led" cx="-16" cy="-8" r="1.8"/><circle class="led" cx="-6" cy="-8" r="1.8"/></g>
+<g transform="translate(440,80)" class="ic"><path d="M-18 -4L-26 -28M18 -4L26 -28"/><rect x="-38" y="-4" width="76" height="26" rx="3"/>
+<circle class="led" cx="-26" cy="9" r="2"/><circle class="led" cx="-18" cy="9" r="2"/><line x1="8" y1="9" x2="30" y2="9"/><path d="M-10 -14a14 14 0 0 1 20 0"/></g>
+<g transform="translate(640,80)" class="ic"><path class="fillbg" d="M-26 20H22A13 13 0 0 0 24 -6A19 19 0 0 0 -12 -12A15 15 0 0 0 -26 20Z"/>
+<circle cx="-2" cy="4" r="9"/><ellipse cx="-2" cy="4" rx="4" ry="9"/><line x1="-11" y1="4" x2="7" y2="4"/></g>
+<g transform="translate(880,80)" class="ic"><rect x="-34" y="-34" width="68" height="68" rx="4"/>
+<rect x="-26" y="-26" width="52" height="14" rx="2"/><rect x="-26" y="-7" width="52" height="14" rx="2"/><rect x="-26" y="12" width="52" height="14" rx="2"/>
+<circle class="led" cx="-19" cy="-19" r="2"/><circle class="led" cx="-19" cy="0" r="2"/><circle class="led" cx="-19" cy="19" r="2"/>
+<line x1="-8" y1="-19" x2="18" y2="-19"/><line x1="-8" y1="0" x2="18" y2="0"/><line x1="-8" y1="19" x2="18" y2="19"/></g>
+<g transform="translate(1060,80)" class="ic"><rect x="-24" y="-32" width="48" height="18" rx="2"/><rect x="-24" y="-9" width="48" height="18" rx="2"/><rect x="-24" y="14" width="48" height="18" rx="2"/>
+<circle class="led" cx="-15" cy="-23" r="2"/><circle class="led" cx="-15" cy="0" r="2"/><circle class="led" cx="-15" cy="23" r="2"/>
+<line x1="-6" y1="-23" x2="16" y2="-23"/><line x1="-6" y1="0" x2="16" y2="0"/><line x1="-6" y1="23" x2="16" y2="23"/></g>
+<g text-anchor="middle">
+<text class="n" x="80" y="148">Noutbuk</text><text class="s" x="80" y="166">istifadəçi cihazı</text>
+<text class="n" x="260" y="148">Switch</text><text class="s" x="260" y="166">L2 giriş</text>
+<text class="n" x="440" y="148">Router</text><text class="s" x="440" y="166">gateway</text>
+<text class="n" x="640" y="148">İnternet</text><text class="s" x="640" y="166">ictimai şəbəkə</text>
+<text class="n" x="880" y="148">Data mərkəzi</text><text class="s" x="880" y="166">kolokasiya</text>
+<text class="n" x="1060" y="148">Server</text><text class="s" x="1060" y="166">tətbiq hostu</text>
+</g>
+</svg>
 
 DataCras DevOps & Platform Engineering · Networking Modulu · Sessiya 01 · Chapter 1 — Şəbəkə təməli
 
@@ -125,7 +160,7 @@ DataCras DevOps & Platform Engineering · Networking Modulu · Sessiya 01 · Cha
 
 ## 🔀 Switch vs Router — ən çox qarışdırılan cüt
 
-| | **Switch** | **Router** |
+| | Switch | Router |
 |---|---|---|
 | Nəyi birləşdirir | **eyni** şəbəkədəki cihazları | **fərqli** şəbəkələri |
 | Qərarı nəyə görə verir | **MAC ünvanı** (cihazın fiziki ünvanı) | **IP ünvanı** |
@@ -267,26 +302,26 @@ ubuntu-vm
 
 $ ip -br a                       # interfeyslər və IP-lər (qısa forma)
 lo      UNKNOWN  127.0.0.1/8 ::1/128
-enp0s3  UP       10.0.2.15/24 fe80::a00:27ff:fe4e:66a1/64
+enp0s3  UP       192.168.0.15/24 fe80::a00:27ff:fe4e:66a1/64
 
 $ ip r | head -2                 # default gateway hansıdır?
-default via 10.0.2.2 dev enp0s3 proto dhcp src 10.0.2.15 metric 100
-10.0.2.0/24 dev enp0s3 proto kernel scope link src 10.0.2.15
+default via 192.168.0.1 dev enp0s3 proto dhcp src 192.168.0.15 metric 100
+192.168.0.0/24 dev enp0s3 proto kernel scope link src 192.168.0.15
 ```
 
-> ⚠️ Bu **nümunə çıxışdır** (VirtualBox NAT rejimində adətən belədir). **Sənin interfeys adın və IP-lərin fərqli ola bilər**, bu normaldır. `ip -br a` və `ip r`-in **Sessiya 02**-də ətraflı izahı var.
+> ⚠️ Bu **nümunə çıxışdır** (bizim `192.168.0.0/24` şəbəkəsində adətən belədir). **Sənin interfeys adın və IP-lərin fərqli ola bilər**, bu normaldır. `ip -br a` və `ip r`-in **Sessiya 02**-də ətraflı izahı var.
 
 ---
 
 ## 🧪 Lab 1 — `ping` ilə yoxla
 
 ```bash
-$ ping -c 3 10.0.2.2             # gateway-ə: öz şəbəkəm
-64 bytes from 10.0.2.2: icmp_seq=1 ttl=… time=0.5 ms
+$ ping -c 3 192.168.0.1         # gateway-ə: öz şəbəkəm
+64 bytes from 192.168.0.1: icmp_seq=1 ttl=… time=0.5 ms
 ...
 3 packets transmitted, 3 received, 0% packet loss
 
-$ ping -c 3 8.8.8.8              # internetə: Google-un açıq DNS-i
+$ ping -c 3 8.8.8.8             # internetə: Google-un açıq DNS-i
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=… time=14.2 ms
 ...
 3 packets transmitted, 3 received, 0% packet loss
