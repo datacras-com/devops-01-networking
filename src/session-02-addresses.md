@@ -465,16 +465,3 @@ $ ip neigh                                   # indi gateway-in MAC-ı görünür
 5. **ARP:** `ip neigh`-ə bax. `ping -c 1 <gateway>` et, sonra yenidən bax. **Nə dəyişdi?**
 6. **DHCP:** 4 addımı (DISCOVER, OFFER, REQUEST, ACK) **düzgün sıra ilə** yaz və hər birini **öz sözünlə** izah et.
 7. **Sual:** Paket `8.8.8.8`-ə gedəndə **təyinat IP** niyə dəyişmir, amma **təyinat MAC** hər addımda dəyişir?
-
----
-
-## ✅ Cavablar (müəllim üçün)
-
-| Tapşırıq | Cavab |
-|---|---|
-| **2** (`10.0.2.15/24` nümunəsi) | şəbəkə `10.0.2.0`, broadcast `10.0.2.255`, istifadə oluna bilən `10.0.2.1`–`10.0.2.254` (**254** ünvan) |
-| **3** | **hə** (`10.0.2.x`) · **yox** (3-cü oktet `1` ≠ `2`) · **hə** (`/16`: ilk 2 oktet `172.16` eynidir) |
-| **4** | `8.8.8.8` **public** · `172.20.1.1` **private** (`172.16–31`) · `172.32.0.1` **public** (aralıqdan kənar) · `192.168.5.5` **private** |
-| **5** | `ping`-dən sonra gateway üçün **yeni sətir** (`lladdr` ilə) çıxır, çünki ARP cavabı yadda saxlanılıb |
-| **6** | DISCOVER (cihaz hamıya soruşur) → OFFER (server IP təklif edir) → REQUEST (cihaz təklifi qəbul edir) → ACK (server təsdiq edir) |
-| **7** | **IP** son təyinatı göstərir (yol boyu eyni). **MAC** yalnız **növbəti addımı** göstərir, hər router-də yeniləşir |
