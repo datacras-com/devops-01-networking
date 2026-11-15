@@ -16,7 +16,7 @@ DataCras DevOps & Platform Engineering bootcamp-ının **Networking** modulu. Li
 | 08 | HTTP, HTTPS və sorğunun həyat dövrü | ✅ hazırdır |
 | 09 | Linux firewall: `ufw`, `iptables`, `nftables` | ✅ hazırdır |
 | 10 | `tcpdump` ilə trafik analizi | ✅ hazırdır |
-| 11 | Diaqnostika: `ping` → `traceroute`/`mtr` → `ss` → `curl` → `dig` | planlaşdırılıb |
+| 11 | Diaqnostika: `ping` → `traceroute`/`mtr` → `ss` → `curl` → `dig` | ✅ hazırdır |
 | 12 | VPN və tunnel | planlaşdırılıb |
 
 Sessiya 06–10 əvvəl Linux kursunda (S35, S36, S37, S40, S41) idi. Networking modulunda daha izahlı yenidən yazılıb və Linux kursundan çıxarılıb.
